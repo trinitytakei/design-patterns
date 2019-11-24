@@ -1,0 +1,7 @@
+Bank Balances:
+
+<% users.each do |user| %>
+  - <%= user.name %>:  <%= number_to_currency(user.amount) %>
+<% end %>
+
+Grand total: <%= number_to_currency users.sum(&:amount) %>
