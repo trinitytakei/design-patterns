@@ -11,15 +11,11 @@ module ActiveRecord
     end
 
     def method_missing(method_name, *args, &block)
-      if columns.include?(method_name)
-        @attributes[method_name]
-      else
-        super
-      end
+      valid_column_name?(method_name) ? @attributes[method_name] : super
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      columns.include?(method_name) || super
+      valid_column_name?(method_name) || super
     end
 
     def self.find(id)
@@ -32,6 +28,10 @@ module ActiveRecord
     end
 
     private
+
+    def valid_column_name?(potential_column_name)
+      columns.include?(potential_column_name)
+    end
 
     def columns
       @@connection.columns('tasks')
