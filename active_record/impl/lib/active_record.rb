@@ -11,7 +11,7 @@ module ActiveRecord
     end
 
     def method_missing(method_name, *args, &block)
-      valid_column_name?(method_name) ? @attributes[method_name] : super
+      valid_column_name?(method_name) ? attributes[method_name] : super
     end
 
     def respond_to_missing?(method_name, include_private = false)
@@ -19,7 +19,7 @@ module ActiveRecord
     end
 
     def self.find(id)
-      # to_i -> primitive defense agains Mr. Bobby Tables
+      # to_i -> defense agains Mr. Bobby Tables
       new find_by_sql("SELECT * FROM tasks WHERE id=#{id.to_i} LIMIT 1").first
     end
 
