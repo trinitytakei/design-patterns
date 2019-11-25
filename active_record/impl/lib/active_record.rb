@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../db_adapters/sqlite_adapter.rb'
 
 module ActiveRecord
@@ -8,14 +10,16 @@ module ActiveRecord
       @attributes = attributes
     end
 
-    def method_missing(name, *args, &block)
-      columns = @@connection.columns("tasks")
-
-      if(columns.include?(name))
-        @attributes[name]
+    def method_missing(method_name, *args, &block)
+      if columns.include?(method_name)
+        @attributes[method_name]
       else
         super
       end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      columns.include?(method_name) || super
     end
 
     def self.find(id)
@@ -26,9 +30,13 @@ module ActiveRecord
     def self.find_by_sql(sql)
       @@connection.execute(sql)
     end
-  end
 
-  private
+    private
+
+    def columns
+      @@connection.columns('tasks')
+    end
 
     attr_reader :attributes
+  end
 end
