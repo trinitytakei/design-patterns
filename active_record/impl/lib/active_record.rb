@@ -2,6 +2,8 @@
 
 require_relative '../db_adapters/sqlite_adapter.rb'
 
+require 'pry'
+
 module ActiveRecord
   class Base
     @@connection = SqliteAdapter.new
@@ -19,12 +21,21 @@ module ActiveRecord
     end
 
     def self.find(id)
-      # to_i -> defense agains Mr. Bobby Tables
-      new find_by_sql("SELECT * FROM tasks WHERE id=#{id.to_i} LIMIT 1").first
+      # to_i -> defense against Mr. Bobby Tables
+      find_by_sql("SELECT * FROM #{table_name} WHERE id=#{id.to_i} LIMIT 1").first
+    end
+
+    def self.all
+      find_by_sql("SELECT * FROM #{table_name}")
     end
 
     def self.find_by_sql(sql)
-      @@connection.execute(sql)
+      [*@@connection.execute(sql)]
+        .map { |record| new record }
+    end
+
+    def self.table_name
+      "#{name.downcase}s"
     end
 
     private
@@ -34,7 +45,7 @@ module ActiveRecord
     end
 
     def columns
-      @@connection.columns('tasks')
+      @@connection.columns(self.class.table_name)
     end
 
     attr_reader :attributes

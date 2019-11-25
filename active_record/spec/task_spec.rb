@@ -19,4 +19,20 @@ describe Task do
       expect(task.id).to eq 1
     end
   end
+
+  describe '.table_name' do
+    it 'returns the table name (pluralized model name)' do
+      expect(Task.table_name).to eq 'tasks'
+    end
+  end
+
+  describe '.all' do
+    it 'returns all tasks in the database' do
+      all_tasks = Task.all
+
+      expect(all_tasks.size).to eq(4)
+      expect(all_tasks.map(&:class).uniq).to eq([Task])
+      expect(all_tasks.map(&:id)).to eq([1, 2, 3, 4])
+    end
+  end
 end
