@@ -1,6 +1,5 @@
-# star with
+# start with
 # shotgun -I.
-require 'pry'
 
 class Application
   def call(env)
@@ -11,7 +10,10 @@ class Application
 
     controller_class = load_controller_class(controller_name)
 
-    response.write(request.path_info)
+    controller = controller_class.new
+    controller.request = request
+    controller.response = response
+
     response.finish
   end
 
