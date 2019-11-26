@@ -13,6 +13,7 @@ class Application
     controller = controller_class.new
     controller.request = request
     controller.response = response
+    controller.process action_name
 
     response.finish
   end
