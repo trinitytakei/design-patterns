@@ -1,6 +1,8 @@
 # start with
 # shotgun -I.
 
+require_relative '../usage/config/routes.rb'
+
 class Application
   def call(env)
     request = Rack::Request.new(env)
@@ -19,9 +21,7 @@ class Application
   end
 
   def route(path)
-    _, controller_name, action_name = path.split('/')
-
-    [controller_name || 'home', action_name || 'index']
+    Routes.route(path)
   end
 
   def load_controller_class(name)

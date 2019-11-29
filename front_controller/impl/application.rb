@@ -25,7 +25,7 @@ class Application
   end
 
   def load_controller_class(name)
-    require_relative "../usage/#{name}_controller.rb"
+    require_relative "../usage/controllers/#{name}_controller.rb"
 
     Object.const_get "#{name.capitalize}Controller"
   end

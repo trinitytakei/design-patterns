@@ -9,11 +9,18 @@ describe Application do
   end
 
   describe '#route' do
+    Routes = Router.new do
+      match '/' => 'home#index'
+      match '/users/index' => 'users#index'
+      match '/tasks' => 'tasks#index'
+      match '/tasks/show' => 'tasks#show'
+    end
+
     it 'generates a controlle/action from a request' do
       expect(@app.route('/users/index')).to eq(%w[users index])
       expect(@app.route('/')).to            eq(%w[home index])
-      expect(@app.route('/users')).to       eq(%w[users index])
-      expect(@app.route('/users/show')).to  eq(%w[users show])
+      expect(@app.route('/tasks')).to       eq(%w[tasks index])
+      expect(@app.route('/tasks/show')).to  eq(%w[tasks show])
     end
   end
 
