@@ -15,6 +15,7 @@ class Application
     controller = controller_class.new
     controller.request = request
     controller.response = response
+    controller.response['content-type'] = 'text/html; charset=UTF-8'
     controller.process action_name
 
     response.finish
