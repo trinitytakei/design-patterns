@@ -6,20 +6,11 @@ class TasksController < ApplicationController
   after_action :add_footer
 
   def index
-    response.write <<~HTML
-      <ul>
-        #{task_list(Task.all)}
-      </ul>
-    HTML
+    @tasks = Task.all
+    render :index
   end
 
 private
-   def task_list(tasks)
-    tasks.each_with_object('') { |task, html|
-      html << "<li>#{task.name}</li>"
-    }.strip
-   end
-
    def add_header
      response.write "<h2>This is a header</h2>\n"
    end

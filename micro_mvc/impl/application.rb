@@ -16,8 +16,10 @@ class Application
     controller.request = request
     controller.response = response
     controller.response['content-type'] = 'text/html; charset=UTF-8'
-    controller.process action_name
 
+    response.write('<html><body>')
+    controller.process action_name
+    response.write('</body></html>')
     response.finish
   end
 
