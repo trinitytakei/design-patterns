@@ -35,4 +35,13 @@ describe Task do
       expect(all_tasks.map(&:id)).to eq([1, 2, 3, 4])
     end
   end
+
+  describe '#name' do
+    it 'should be invalid unless name is present' do
+      user = Task.new
+
+      expect(user.valid?).to be_falsy
+      expect(user.errors[:name]).to include("can't be blank")
+    end
+  end
 end

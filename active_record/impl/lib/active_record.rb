@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
+require 'active_model'
 require_relative '../db_adapters/sqlite_adapter.rb'
 
 require 'pry'
 
 module ActiveRecord
   class Base
+    include ActiveModel::Validations
+
     @@connection = SqliteAdapter.new
 
-    def initialize(attributes)
+    def initialize(attributes={})
       @attributes = attributes
     end
 
